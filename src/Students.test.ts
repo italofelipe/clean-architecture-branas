@@ -1,7 +1,24 @@
-import EnrollStudent from ".";
+import EnrollmentRepositoryMemory from "./EnrollmentRepositoryMemory";
+import EnrollStudent from "./index";
+import LevelRepositoryMemory from "./LevelRepositoryMemory";
+import ModuleRepositoryMemory from "./ModuleRepositoryMemory";
+import ClassRepositoryMemory from "./ClassRepositoryMemory";
+
+let enrollStudent: EnrollStudent;
+beforeEach(function () {
+	const enrollmentRepository = new EnrollmentRepositoryMemory();
+	const levelRepository = new LevelRepositoryMemory();
+	const moduleRepository = new ModuleRepositoryMemory();
+	const classRepository = new ClassRepositoryMemory();
+	enrollStudent = new EnrollStudent(
+		levelRepository,
+		moduleRepository,
+		classRepository,
+		enrollmentRepository
+	);
+});
 
 test("Should not enroll without a valid student name", () => {
-	const enrollStudent = new EnrollStudent();
 	const enrollmentRequest = {
 		student: {
 			name: "Ana"
@@ -16,7 +33,6 @@ test("Should not enroll without a valid student name", () => {
 });
 
 test("Should not enroll without a valid CPF", function () {
-	const enrollStudent = new EnrollStudent();
 	const enrollmentRequest = {
 		student: {
 			name: "Ana Maria",
@@ -32,7 +48,6 @@ test("Should not enroll without a valid CPF", function () {
 });
 
 test("Should not enroll duplicated student", function () {
-	const enrollStudent = new EnrollStudent();
 	const enrollmentRequest = {
 		student: {
 			name: "Ana Maria",
@@ -49,7 +64,6 @@ test("Should not enroll duplicated student", function () {
 });
 
 test("Should generate enrollment code", () => {
-	const enrollStudent = new EnrollStudent();
 	const enrollmentRequest = {
 		student: {
 			name: "Ana Maria",
@@ -64,7 +78,6 @@ test("Should generate enrollment code", () => {
 });
 
 test("Should enroll student below minimum age", () => {
-	const enrollStudent = new EnrollStudent();
 	const enrollmentRequest = {
 		student: {
 			name: "Ana Maria",
@@ -81,7 +94,6 @@ test("Should enroll student below minimum age", () => {
 });
 
 test("Should not enroll student over class capacity", () => {
-	const enrollStudent = new EnrollStudent();
 	enrollStudent.execute({
 		student: {
 			name: "Ana Maria",
