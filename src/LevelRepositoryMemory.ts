@@ -1,27 +1,28 @@
-import { LevelRepository } from "./LevelRepository";
+import Level from "./Level";
+import LevelRepository from "./LevelRepository";
 
 export default class LevelRepositoryMemory implements LevelRepository {
-	levels: any;
-
-	constructor() {
+	levels: Level[];
+    
+	constructor () {
 		this.levels = [
-			{
+			new Level({
 				code: "EF1",
 				description: "Ensino Fundamental I"
-			},
-			{
+			}),
+			new Level({
 				code: "EF2",
 				description: "Ensino Fundamental II"
-			},
-			{
+			}),
+			new Level({
 				code: "EM",
 				description: "Ensino Médio"
-			}
+			})
 		];
 	}
 
-	findByCode(code: string): any {
-		const level = this.levels.find((level: any) => level.code === code);
+	findByCode(code: string) {
+		const level = this.levels.find(level => level.code === code);
 		if (!level) throw new Error("Level not found");
 		return level;
 	}
